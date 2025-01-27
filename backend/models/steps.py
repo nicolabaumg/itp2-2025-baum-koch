@@ -1,6 +1,4 @@
 from .recipe import RecipeModels
-from datetime import datetime
-
 from sqlalchemy import Column, VARCHAR, DATE, DateTime, INTEGER, ForeignKey
 from database.config import Base
 
