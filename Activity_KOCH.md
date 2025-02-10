@@ -18,7 +18,7 @@ Planung des Projekts, Technologieentscheidung, Erstellen des Github Repository
 ### Geplant
 - physisches Datenbankmodel 
 - Datenbank models implementieren
-- Route für Recipe implementieren
+- Crud für Recipe implementieren
 
 ### Umgesetzt
 - physisches Datenbankmodel
@@ -26,3 +26,23 @@ Planung des Projekts, Technologieentscheidung, Erstellen des Github Repository
 
 ### Hindernisse
 Mathe Prüfung und daher weniger Zeit 
+
+
+## 03.02.2024
+
+### Geplant
+- API Models
+- CRUD Methods for Recipe
+
+### Umgesetzt
+- API Models
+- CRUD Methods for Recipe
+
+
+## 10.02.2024
+
+### Geplant
+- API Routes for recipe
+
+### Umgesetzt
+-API Routes for recipe
