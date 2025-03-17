@@ -1,31 +1,32 @@
 <template>
     <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class="container">
-                 <router-link class="navbar-brand" to="/">Demo</router-link> 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/">Home</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/register">Register</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/profile">Profile</router-link>
-                        </li> 
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/logout">Logout</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/login">Login</router-link>
-                        </li>
-
-                    </ul>
+        <nav class="navbar bg-dark">
+            <div class="container-fluid">
+                <div class="d-flex">
+                    <router-link class="navbar-brand a" to="/">
+                        <img src="/logo.png" alt="Bootstrap" width="32" height="32">
+                    </router-link>
+                    <router-link class="nav-link text-light" to="/">Home</router-link>
+                </div>
+                <div class="d-flex">
+                    <div class="dropdown" v-if="auth.isAuthenticated">
+                        <a class="nav-link dropdown-toggle fw-bold text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <router-link class="nav-link text-dark" to="/profile">View profile</router-link>
+                            </li> 
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <router-link class="nav-link text-dark" to="/logout">Logout</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="d-flex" v-else>
+                        <router-link class="nav-link text-light" to="/register">Register</router-link>
+                        <router-link class="nav-link text-light" to="/login">Login</router-link>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -34,13 +35,26 @@
   
 <script setup>
 import { useAuthStore } from '../store/auth';
+import { useProfile } from '../store/me';
 const auth = useAuthStore();
+
+const { 
+    me,
+    reloadData,
+    updatePassword,
+    updateBirthday,
+    changeAccessToken,
+} = useProfile();
 
 </script>
   
 <style scoped>
 a {
     cursor: pointer;
+}
+
+.a {
+    color: black !important;
 }
 </style>
   
