@@ -1,7 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from models.recipe import RecipeModels
-from models.steps import StepsModels
 from schemas.recipe import recipeSchema, recipeDB
 from typing import List
 
@@ -14,17 +13,12 @@ class RecipeCRUD:
     async def create_recipe(self, recipe: recipeSchema):
         db_recipe = RecipeModels(
             title = recipe.title,
-            description = recipe.description
+            description_short = recipe.description_short,
+            description_long = recipe.description_long
         )
         self.db_session.add(db_recipe)
         await self.db_session.commit()
         await self.db_session.refresh(db_recipe)
-
-
-        for step in recipe.steps:
-            new_step = StepsModels(recipe_id = db_recipe.id, text = step.text)
-            self.db_session.add(new_step)
-        await self.db_session.commit()
     
         return db_recipe
     
@@ -38,14 +32,10 @@ class RecipeCRUD:
         
         new_recipe = RecipeModels(
             title = recipe.title,
-            description = recipe.description
+            description_short = recipe.description_short,
+            description_long = recipe.description_long,
         )
         self.db_session.add(new_recipe)
-        await self.db_session.commit()
-
-        for step in recipe.steps:
-            new_step = StepsModels(recipe_id = new_recipe.id, text = step.text)
-            self.db_session.add(new_step)
         await self.db_session.commit()
 
         return new_recipe
@@ -61,7 +51,7 @@ class RecipeCRUD:
         await self.db_session.delete(found_recipe)
         await self.db_session.commit()
 
-    async def get_recipe(self, recipe_id, recipe: recipeSchema):
+    async def get_recipe(self, recipe_id):
         stmt = select(RecipeModels).where(RecipeModels.id == recipe_id)
         result = await self.db_session.execute(stmt)
         found_recipe = result.scalars().first()

@@ -1,17 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional, List
-
-class ingredientsSchema(BaseModel):
-    text: str
-
-class stepsSchema(BaseModel):
-    text: str
+from datetime import datetime
 
 class recipeSchema(BaseModel):
     title: str
-    description: Optional[str]
-    ingredients: List[ingredientsSchema]
-    steps: List[stepsSchema]
+    description_short: str
+    description_long: str 
+    create_time: Optional[datetime]
 
-class recipeDB(RecipeSchema):
+
+class recipeDB(recipeSchema):
     id: int

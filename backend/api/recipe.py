@@ -10,17 +10,15 @@ async def create_recipe_route(recipe: recipeSchema, db: recipeDB = Depends(get_r
     return await db.create_recipe(recipe)
 
 @router.put("/recipe/", response_model=recipeDB)
-async def update_recipe_route(recipe, recipe_id: int, db: recipeDB = Depends(get_recipe_crud)):
+async def update_recipe_route(recipe: recipeSchema, recipe_id: int, db: recipeDB = Depends(get_recipe_crud)):
     recipe = await db.update_recipe(recipe_id, recipe)
     if recipe is None: 
         raise HTTPException(status_code=404, detail="Recipe not found")
     return recipe
 
-@router.delete("/recipe/", response_model=recipeDB)
+@router.delete("/recipe/")
 async def delete_recipe_route(recipe_id: int, db: recipeDB = Depends(get_recipe_crud)):
     success = await db.delete_recipe(recipe_id)
-    if not success:
-        raise HTTPException(status_code=404, detail="Recipe not found")
     return {"message": "Recipe deleted successfully"}
 
 @router.get("/recipe/", response_model=recipeDB)
@@ -30,7 +28,7 @@ async def get_recipe_route(recipe_id: int, db: recipeDB = Depends(get_recipe_cru
         raise HTTPException(status_code=404, detail="Recipe not found")
     return recipe
 
-@router.get("/recipe/", response_model=List[recipeDB])
+@router.get("/recipes/", response_model=List[recipeDB])
 async def get_all_recipes_route(db: recipeDB = Depends(get_recipe_crud)):
     recipes = await db.get_all_recipes()
     if not recipes:
