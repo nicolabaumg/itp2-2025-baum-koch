@@ -17,6 +17,9 @@
                             <li>
                                 <router-link class="nav-link text-dark" to="/profile">View profile</router-link>
                             </li> 
+                            <li>
+                                <router-link class="nav-link text-dark" to="/myrecipes">My Recipes</router-link>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <router-link class="nav-link text-dark" to="/logout">Logout</router-link>

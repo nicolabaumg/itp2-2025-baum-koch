@@ -7,6 +7,7 @@ import RegisterView from '../views/RegisterView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import RefreshView from '../views/RefreshView.vue'
 import { useAuthStore } from '../store/auth'
+import MyRecipesView from '../views/MyRecipesView.vue'
 
 const routes = [
     {
@@ -39,6 +40,11 @@ const routes = [
         path: '/refresh',
         name: 'Refresh',
         component: RefreshView,
+    },
+    {
+        path: '/myrecipes',
+        name: 'MyRecipes',
+        component: MyRecipesView,
     },
 ]
 
