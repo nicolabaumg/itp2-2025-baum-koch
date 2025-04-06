@@ -8,6 +8,7 @@ import LogoutView from '../views/LogoutView.vue'
 import RefreshView from '../views/RefreshView.vue'
 import { useAuthStore } from '../store/auth'
 import MyRecipesView from '../views/MyRecipesView.vue'
+import CreateRecipeView from '../views/CreateRecipeView.vue'
 
 const routes = [
     {
@@ -46,6 +47,11 @@ const routes = [
         name: 'MyRecipes',
         component: MyRecipesView,
     },
+    {
+        path: '/create',
+        name: 'Create',
+        component: CreateRecipeView
+    }
 ]
 
 const router = createRouter({
