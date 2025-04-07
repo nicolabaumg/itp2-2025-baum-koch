@@ -53,6 +53,7 @@ class RecipeCRUD:
 
         await self.db_session.delete(found_recipe)
         await self.db_session.commit()
+        return found_recipe
 
     async def get_recipe(self, recipe_id: int, current_user: UserModels):
         stmt = select(RecipeModels).where(
@@ -63,6 +64,6 @@ class RecipeCRUD:
         return result.scalars().first()
 
     async def get_all_recipes(self, current_user: UserModels) -> List[recipeDB]:
-        stmt = select(RecipeModels).where(RecipeModels.user_id == current_user.username)
+        stmt = select(RecipeModels)
         result = await self.db_session.execute(stmt)
         return result.scalars().all()

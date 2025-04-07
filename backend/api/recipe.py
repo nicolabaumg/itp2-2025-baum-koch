@@ -28,7 +28,7 @@ async def update_recipe_route(
         raise HTTPException(status_code=404, detail="Recipe not found or not owned by user")
     return updated
 
-@router.delete("/recipe/")
+@router.delete("/recipe/{recipe_id}")
 async def delete_recipe_route(
     recipe_id: int,
     current_user: UserModels = Depends(get_current_user),
