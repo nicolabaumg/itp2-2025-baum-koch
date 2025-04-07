@@ -3,63 +3,66 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models.recipe import RecipeModels
 from schemas.recipe import recipeSchema, recipeDB
 from typing import List
+from models.user import UserModels
 
 class RecipeCRUD:
-    db_session = None
-
-    def __init__(self, db_session: AsyncSession = None):
+    def __init__(self, db_session: AsyncSession):
         self.db_session = db_session
 
-    async def create_recipe(self, recipe: recipeSchema):
+    async def create_recipe(self, recipe: recipeSchema, current_user: UserModels):
         db_recipe = RecipeModels(
-            title = recipe.title,
-            description_short = recipe.description_short,
-            description_long = recipe.description_long
+            title=recipe.title,
+            description_short=recipe.description_short,
+            description_long=recipe.description_long,
+            user_id=current_user.username
         )
         self.db_session.add(db_recipe)
         await self.db_session.commit()
         await self.db_session.refresh(db_recipe)
-    
         return db_recipe
-    
-    async def update_recipe(self, recipe_id, recipe: recipeSchema):
-        stmt = select(RecipeModels).where(RecipeModels.id == recipe_id)
-        result = await self.db_session.execute(stmt)
-        found_recipe = result.scalars().first()
 
-        if found_recipe == None:
-            return None
-        
-        new_recipe = RecipeModels(
-            title = recipe.title,
-            description_short = recipe.description_short,
-            description_long = recipe.description_long,
+    async def update_recipe(self, recipe_id: int, recipe: recipeSchema, current_user: UserModels):
+        stmt = select(RecipeModels).where(
+            RecipeModels.id == recipe_id,
+            RecipeModels.user_id == current_user.username
         )
-        self.db_session.add(new_recipe)
-        await self.db_session.commit()
-
-        return new_recipe
-    
-    async def delete_recipe(self, recipe_id):
-        stmt = select(RecipeModels).where(RecipeModels.id == recipe_id)
         result = await self.db_session.execute(stmt)
         found_recipe = result.scalars().first()
 
-        if found_recipe == None:
+        if found_recipe is None:
             return None
-        
+
+        found_recipe.title = recipe.title
+        found_recipe.description_short = recipe.description_short
+        found_recipe.description_long = recipe.description_long
+
+        await self.db_session.commit()
+        await self.db_session.refresh(found_recipe)
+        return found_recipe
+
+    async def delete_recipe(self, recipe_id: int, current_user: UserModels):
+        stmt = select(RecipeModels).where(
+            RecipeModels.id == recipe_id,
+            RecipeModels.user_id == current_user.username
+        )
+        result = await self.db_session.execute(stmt)
+        found_recipe = result.scalars().first()
+
+        if found_recipe is None:
+            return None
+
         await self.db_session.delete(found_recipe)
         await self.db_session.commit()
 
-    async def get_recipe(self, recipe_id):
-        stmt = select(RecipeModels).where(RecipeModels.id == recipe_id)
+    async def get_recipe(self, recipe_id: int, current_user: UserModels):
+        stmt = select(RecipeModels).where(
+            RecipeModels.id == recipe_id,
+            RecipeModels.user_id == current_user.username
+        )
         result = await self.db_session.execute(stmt)
-        found_recipe = result.scalars().first()
+        return result.scalars().first()
 
-        return found_recipe
-    
-    async def get_all_recipes(self) -> List[recipeDB]:
-        stmt = select(RecipeModels)
+    async def get_all_recipes(self, current_user: UserModels) -> List[recipeDB]:
+        stmt = select(RecipeModels).where(RecipeModels.user_id == current_user.username)
         result = await self.db_session.execute(stmt)
-        all_recipes = result.scalars().all()
-        return all_recipes
+        return result.scalars().all()

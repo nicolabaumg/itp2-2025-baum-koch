@@ -1,17 +1,25 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Security
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import user, auth, me
+from api import recipe, user, auth, me
 from database.config import engine, database, Base
+from setting.config import get_settings
 
 
-app = FastAPI()
+
+
+settings = get_settings()
+
+
+app = FastAPI(
+)
 app.include_router(auth.router, prefix="/api")
 app.include_router(user.router, prefix="/api")
+app.include_router(recipe.router, prefix="/api")
 app.include_router(me.router, prefix="/api")
-
 origins = [
     "http://localhost:5173",
+    "http://127.0.0.1:5001",
 ]
 
 methods = [
