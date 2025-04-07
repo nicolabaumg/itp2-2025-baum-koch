@@ -34,27 +34,6 @@
         </div>
     </div>
 
-
-    <!-- Testing area -->
-    <div class="row justify-content-center">
-        <div class="col-6 mx-5">
-            <div class="row">
-                <div class="col-6">
-                    <div class="col-9 alert alert-warning">
-                        <div class="col-12 mb-3 text-center">Reload data:</div>
-                        <div class="btn btn-warning  col-12 mb-3" v-on:click="reloadData">Reload</div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="col-9 alert alert-danger">
-                        <div class="col-12 mb-3 text-center">Set to wrong token :</div>
-                        <div class="btn btn-danger col-12 mb-3" v-on:click="changeAccessToken">Access Token</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </template>
   
 <script setup>
