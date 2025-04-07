@@ -30,8 +30,8 @@ async def delete_user(
     current_user: user_schema.Base = Depends(get_current_user),
     db: UserCRUD = Depends(get_user_crud),
 ):
-    # return await db.delete_user(username=current_user.username)
-    return "deprecated"
+    return await db.delete_user(username=current_user.username)
+
 
 
 @router.put("/password", deprecated=True)
@@ -40,8 +40,8 @@ async def update_password(
     current_user: user_schema.Base = Depends(get_current_user),
     db: UserCRUD = Depends(get_user_crud),
 ):
-    # return await db.update_password(  username=current_user.username , password=request.password )
-    return "deprecated"
+    return await db.update_password(  username=current_user.username , password=request.password )
+
 
 
 @router.put("/birthday", deprecated=True)
