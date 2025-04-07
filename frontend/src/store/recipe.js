@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { apiGetRecipes } from "../api/recipe";
+import { apiDeleteRecipe, apiGetRecipes, apiCreateRecipe } from "../api/recipe";
 import { useLoadingStore } from "./loading";
 
 // data provider pattern : 
@@ -31,4 +31,29 @@ function useFetchRecipes() {
   return { recipeList };
 }
 
-export { useFetchRecipes };
+async function createRecipe(form){
+  const loadingStore = useLoadingStore();
+  loadingStore.setLoading();
+  console.log(form)
+
+  apiCreateRecipe(form)
+}
+
+function removeRecipe(id) {
+  const deleteRecipe = async (id) => {
+    const loadingStore = useLoadingStore();
+    loadingStore.setLoading();
+
+    try {
+      await apiDeleteRecipe(id);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loadingStore.clearLoading();
+    }
+  };
+
+  deleteRecipe(id);
+}
+
+export { useFetchRecipes, createRecipe, removeRecipe };

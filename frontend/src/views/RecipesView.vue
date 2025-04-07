@@ -11,15 +11,15 @@
     </div>
     </div>
     <div class="d-flex m-3 border rounded align-items-center" v-for="recipe in recipeList.value">
-        <div class="m-2 w-100">
+        <div class="m-2 ml-3 w-100">
             {{ recipe.title }}
-            <p class="text-secondary m-auto">{{ recipe.description }}</p>
+            <p class="text-secondary m-auto">{{ recipe.description_short }}</p>
         </div>
         <div class="m-2 w-25 d-flex justify-content-end">
-            {{ recipe.username }}
+            {{ recipe.user_id }}
         </div>
-        <div class="m-2 d-flex justify-content-end w-25">
-            {{ recipe.create_time }}
+        <div class="m-2 mr-4 d-flex justify-content-end w-25">
+            {{ new Date(recipe.create_time).toLocaleDateString('de-DE') }}
         </div>
     </div>
 </template>
